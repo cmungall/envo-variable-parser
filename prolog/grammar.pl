@@ -5,33 +5,33 @@ case('angstrom exponent of ambient aerosol in air',_).
 case('atmosphere cloud liquid water content', _).
 case('mass concentration of atomic bromine in air',_).
 
-:- table cvar//1.
+:- table variable//1.
 
 % EXAMPLE: "tendency of upward air velocity due to advection"
-cvar( due_to(Effect,Cause) ) --> cvar(Effect), [due,to], !, cause(Cause).
+variable( due_to(Effect,Cause) ) --> variable(Effect), [due,to], cause(Cause).
 
 % EXAMPLE: "tendency of upward air velocity due to advection"
-cvar( assuming(V,Assumption) ) --> cvar(V), [assuming], !, assumption(Assumption).
+variable( assuming(V,Assumption) ) --> variable(V), [assuming], assumption(Assumption).
 
 % EXAMPLE: "upward heat flux in air"
-cvar( located_in(V, M) ) --> cvar(V), [in], !, location(M).
+variable( located_in(V, M) ) --> variable(V), [in], !, location(M).
 
 % EXAMPLE: "air pressure at cloud base"
-cvar( located_at(V, M) ) --> cvar(V), [at], !, location(M).
+variable( located_at(V, M) ) --> variable(V), [at], !, location(M).
 
 % EXAMPLE: "virtual salt flux into sea water"
-cvar( into(V, M) ) --> cvar(V), [into], !, location(M).
+variable( into(V, M) ) --> variable(V), [into], !, location(M).
 
 % EXAMPLE: "volume fraction of clay in soil")
 % TODO: fractions
-cvar( inheres_in(A, E) ) --> attribute(A), [of], !, cvar(E).
+variable( inheres_in(A, E) ) --> attribute(A), [of], !, variable(E).
 
-cvar(X) --> cvar_np(X).
+variable(X) --> variable_np(X).
 
-%cvar_np( q(X) ) --> nterm(quality, X), !.
-cvar_np( inheres_in(Q,E) ) --> material(E), nterm(quality, Q), !.
-cvar_np( inheres_in(Q,E) ) --> process(E), nterm(quality, Q), !.  % TODO - check this is a rate
-cvar_np(X) --> np(X).
+%variable_np( q(X) ) --> nterm(quality, X), !.
+variable_np( inheres_in(Q,E) ) --> material(E), nterm(quality, Q), !.
+variable_np( inheres_in(Q,E) ) --> process(E), nterm(quality, Q), !.  % TODO - check this is a rate
+variable_np(X) --> np(X).
 
 
 cause(X) --> process(X), !.
@@ -51,7 +51,7 @@ terminal( cf(X) ) --> nterm(cf, X).
 
 terminal( n(X) ) --> [X], {\+ reserved(X)}.
 
-attribute( attribute(A) ) --> cvar(A).
+attribute( attribute(A) ) --> variable(A).
 
 material( material(M) ) --> nterm(material, M), !.
 material( material(M) ) --> np(M).
@@ -79,7 +79,7 @@ reserved(into).
 show_parse(Term) :-
         format('## ~w~n',[Term]),
         term_toks(Term, _, Toks),
-        forall(cvar(Phrase,Toks,[]),
+        forall(variable(Phrase,Toks,[]),
                format(' PARSE: ~w~n',[Phrase])),
         nl.
 
@@ -129,3 +129,19 @@ t1 :-
         loadall,
         show_parse('energy content').
 
+
+:- begin_tests(parse_test, [setup(loadall)]).
+
+test_parse(Term, Expected) :-
+        nl,
+        format('## ~w~n',[Term]),
+        term_toks(Term, _, Toks),
+        forall(variable(Phrase,Toks,[]),
+               format(' PARSE: ~q~n',[Phrase])),
+        assertion( \+ \+ (variable(Phrase,Toks,[]), Phrase=Expected)).
+
+
+test(p1) :-
+        test_parse('energy content', _).        
+
+:- end_tests(parse_test).
