@@ -1,4 +1,4 @@
-all: cf-test
+all: target/parse.txt
 
 CFXML = cf-standard-name-table_v13.xml
 
@@ -16,6 +16,10 @@ data/cf.pro: data/cf-vars.txt
 
 cf-test: data/cf.pro
 	swipl -l prolog/grammar -g t,halt.
+
+target/parse.txt: data/cf.pro
+	swipl -l prolog/grammar -g t,halt. > $@
+
 
 cvt: ont/cf.owl
 
