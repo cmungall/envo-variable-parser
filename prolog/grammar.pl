@@ -8,24 +8,23 @@ case('mass concentration of atomic bromine in air',_).
 :- table cvar//1.
 
 
-cvar( due_to(Effect,Cause) ) --> cvar1(Effect), [due,to], !, cvar1(Cause).
-cvar(X) --> cvar0(X).
+cvar( due_to(Effect,Cause) ) --> cvar(Effect), [due,to], !, cause(Cause).
 
+cvar( located_in(V, M) ) --> cvar(V), [in], !, material(M).
+cvar( located_at(V, M) ) --> cvar(V), [at], !, material(M).
+cvar( into(V, M) ) --> cvar(V), [into], !, material(M).
 
-cvar0( located_in(V, M) ) --> cvar1(V), [in], !, material(M).
-cvar0( located_at(V, M) ) --> cvar1(V), [at], !, material(M).
-cvar0( into(V, M) ) --> cvar1(V), [into], !, material(M).
-cvar0(X) --> cvar1(X).
+cvar( inheres_in(A, E) ) --> attribute(A), [of], !, cvar(E).
 
-cvar1( inheres_in(A, E) ) --> attribute(A), [of], !, cvar0(E).
-cvar1(X) --> cvar2(X).
-
-cvar2(X) --> cvar_np(X).
+cvar(X) --> cvar_np(X).
 
 %cvar_np( q(X) ) --> nterm(quality, X), !.
 cvar_np( inheres_in(Q,E) ) --> material(E), nterm(quality, Q), !.
 cvar_np( inheres_in(Q,E) ) --> process(E), nterm(quality, Q), !.  % TODO - check this is a rate
 cvar_np(X) --> np(X).
+
+cause(X) --> process(X), !.
+cause(X) --> np(X).
 
 
 np(X) --> terminal(X).
@@ -36,7 +35,7 @@ terminal( cf(X) ) --> nterm(cf, X).
 
 terminal( n(X) ) --> [X], {\+ reserved(X)}.
 
-attribute( attribute(A) ) --> cvar2(A).
+attribute( attribute(A) ) --> cvar(A).
 
 material( material(M) ) --> nterm(material, M), !.
 material( material(M) ) --> np(M).
