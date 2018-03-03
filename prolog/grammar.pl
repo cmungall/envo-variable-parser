@@ -5,6 +5,7 @@ cvar(X) --> cvar0(X).
 
 
 cvar0( located_in(V, M) ) --> cvar1(V), [in], !, material(M).
+cvar0( into(V, M) ) --> cvar1(V), [into], !, material(M).
 cvar0(X) --> cvar1(X).
 
 cvar1( inheres_in(A, E) ) --> attribute(A), [of], !, cvar1(E).
