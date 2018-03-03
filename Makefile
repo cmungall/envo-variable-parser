@@ -26,9 +26,11 @@ data/$(CFXML):
 
 .PRECIOUS: data/$(CFXML)
 
-# HACK!
 data/cf-vars.txt: ont/cf.owl
 	pl2sparql -f tsv -i $< -e "label(X,L@en)" "x(L)" > $@
+
+data/cf-defs.txt: ont/cf.owl
+	pl2sparql  -f tsv -i $< -e "label(X,L@en),rdf(X,'http://purl.obolibrary.org/obo/IAO_0000115', D@en)" "x(L,D)" > $@
 
 #data/cf.pro: ont/cf.owl
 #	perl -npe 's@_@ @g' $< | tbl2p -p v > $@
@@ -46,7 +48,7 @@ cvt: ont/cf.owl
 # ONTOLOGY PROCESSING
 # ----------------------------------------
 
-DICTS = envo_material envo_process pato_quality
+ONTS = envo pato chebi
 
 ont/envo.owl:
 	curl -L $(OBO)/envo.owl > $@.tmp && mv $@.tmp $@
@@ -56,21 +58,25 @@ ont/pato.owl:
 	curl -L $(OBO)/pato.owl > $@.tmp && mv $@.tmp $@
 .PRECIOUS: pato.owl
 
-ont/envo_material.pl: ont/envo.owl
-	pl2sparql -f prolog -i $< -c prolog/lexical_query -e "q('ENVO_00010483',X,L,_)" "cls(material,X,L)" > $@
+ont/chebi.owl:
+	curl -L $(OBO)/chebi.owl > $@.tmp && mv $@.tmp $@
+.PRECIOUS: chebi.owl
 
-ont/envo_process.pl: ont/envo.owl
-	pl2sparql -f prolog -i $< -e "rdfs_subclass_of(X, '$(OBO)/ENVO_02500000'),label(X,L)" "cls(process,X,L)" > $@
-
-ont/pato_quality.pl: ont/pato.owl
-	pl2sparql -f prolog -i $< -e "rdfs_subclass_of(X, '$(OBO)/PATO_0000001'),label(X,L)" "cls(quality,X,L)" > $@
-
-ont/dict.pl: $(patsubst %, ont/%.pl, $(DICTS))
-	cat $^ > $@
+ont/dictionary.pl: $(patsubst %, ont/%.owl, $(ONTS))
+	pl2sparql -f prolog $(patsubst %, -i %, $^) -c prolog/lexical_query -e cls_label > $@.tmp && mv $@.tmp $@
 
 # ----------------------------------------
 # PARSE AND TRANSLATE
 # ----------------------------------------
 
-target/parse.txt: data/cf.pro ont/dict.pl prolog/grammar.pl
-	swipl -l prolog/grammar -g t,halt. > $@
+target/parse.txt: data/cf.pro ont/dictionary.pl prolog/grammar.pl
+	swipl -l prolog/grammar -g parse_all,halt. > $@
+
+target/parse-detail.txt: data/cf.pro ont/dictionary.pl prolog/grammar.pl
+	swipl -l prolog/grammar -g parse_all(true),halt. > $@
+
+target/usage.txt: data/cf.pro ont/dictionary.pl prolog/grammar.pl
+	swipl -l prolog/grammar -g usage_report,halt. > $@.tmp && sort -u $@.tmp > $@
+
+target/summary.txt: data/cf.pro ont/dictionary.pl prolog/grammar.pl
+	swipl -l prolog/grammar -g usage_summary,halt. > $@.tmp && mv $@.tmp $@

@@ -21696,7 +21696,7 @@ Sea surface foundation temperature is measured at the base of the diurnal thermo
         <rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/PATO_0000001"/>
         <obo:IAO_0000115 xml:lang="en"> The construction &quot;atmosphere_moles_of_X&quot; means the total number of moles of X in the entire atmosphere, i.e. summed over the atmospheric column and over the entire globe. The chemical formula for acetic_acid is CH3COOH. The IUPAC name for acetic acid is ethanoic acid.</obo:IAO_0000115>
         <oboInOwl:hasUnitLabel xml:lang="en"> mol</oboInOwl:hasUnitLabel>
-        <rdfs:label xml:lang="en">atmosphere moles of acetic acid </rdfs:label>
+        <rdfs:label xml:lang="en">atmosphere moles of acetic acid</rdfs:label>
     </owl:Class>
     
 
@@ -21707,7 +21707,7 @@ Sea surface foundation temperature is measured at the base of the diurnal thermo
         <rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/PATO_0000001"/>
         <obo:IAO_0000115 xml:lang="en"> The construction &quot;atmosphere_moles_of_X&quot; means the total number of moles of X in the entire atmosphere, i.e. summed over the atmospheric column and over the entire globe. The chemical formula for alpha_hexachlorocyclohexane is C6H6Cl6.</obo:IAO_0000115>
         <oboInOwl:hasUnitLabel xml:lang="en"> mol</oboInOwl:hasUnitLabel>
-        <rdfs:label xml:lang="en">atmosphere moles of alpha hexachlorocyclohexane </rdfs:label>
+        <rdfs:label xml:lang="en">atmosphere moles of alpha hexachlorocyclohexane</rdfs:label>
     </owl:Class>
     
 
@@ -21718,7 +21718,7 @@ Sea surface foundation temperature is measured at the base of the diurnal thermo
         <rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/PATO_0000001"/>
         <obo:IAO_0000115 xml:lang="en"> &quot;Content&quot; indicates a quantity per unit area.  The &quot;atmosphere content&quot; of a quantity refers to the vertical integral from the surface to the top of the atmosphere. For the content between specified levels in the atmosphere, standard names including content_of_atmosphere_layer are used.  The specification of a physical process by the phrase due_to_process means that the quantity named is a  single term in a sum of terms which together compose the general quantity  named by omitting the phrase.  &quot;tendency_of_X&quot; means derivative of X with respect to time.  &quot;Emission&quot; means emission from a primary source located anywhere within the atmosphere, including at the lower boundary (i.e. earth&apos;s surface). &quot;Emission&quot; is a process entirely distinct from &quot;re-emission&quot; which is used in some standard names. The chemical formula for nitrogen monoxide is NO.</obo:IAO_0000115>
         <oboInOwl:hasUnitLabel xml:lang="en"> kg m-2 s-1</oboInOwl:hasUnitLabel>
-        <rdfs:label xml:lang="en">tendency of atmosphere mass content of nitrogen monoxide due to emission </rdfs:label>
+        <rdfs:label xml:lang="en">tendency of atmosphere mass content of nitrogen monoxide due to emission</rdfs:label>
     </owl:Class>
     
 
@@ -21729,7 +21729,7 @@ Sea surface foundation temperature is measured at the base of the diurnal thermo
         <rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/PATO_0000001"/>
         <obo:IAO_0000115 xml:lang="en">The specification of a physical process by the phrase due_to_process means that the quantity named is a single term in a sum of terms which together compose the general quantity named by omitting the phrase. &quot;tendency_of_X&quot; means derivative of X with respect to time. &quot;Content&quot; indicates a quantity per unit area. &quot;Layer&quot; means any layer with upper and lower boundaries that have constant values in some vertical coordinate. There must be a vertical coordinate variable indicating the extent of the layer(s). If the layers are model layers, the vertical coordinate can be model_level_number, but it is recommended to specify a physical coordinate (in a scalar or auxiliary coordinate variable) as well. Potential energy is the sum of the gravitational potential energy relative to the geoid and the centripetal potential energy. (The geopotential is the specific potential energy.)</obo:IAO_0000115>
         <oboInOwl:hasUnitLabel xml:lang="en">W m-2</oboInOwl:hasUnitLabel>
-        <rdfs:label xml:lang="en">tendency of potential energy content of ocean layer due to diffusion </rdfs:label>
+        <rdfs:label xml:lang="en">tendency of potential energy content of ocean layer due to diffusion</rdfs:label>
     </owl:Class>
     
 

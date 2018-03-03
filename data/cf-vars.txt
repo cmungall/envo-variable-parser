@@ -1944,8 +1944,8 @@ x wind
 y derivative of ocean rigid lid pressure
 y wind
 zenith angle
-atmosphere moles of acetic acid 
-atmosphere moles of alpha hexachlorocyclohexane 
-tendency of atmosphere mass content of nitrogen monoxide due to emission 
-tendency of potential energy content of ocean layer due to diffusion 
+atmosphere moles of acetic acid
+atmosphere moles of alpha hexachlorocyclohexane
+tendency of atmosphere mass content of nitrogen monoxide due to emission
+tendency of potential energy content of ocean layer due to diffusion
 

@@ -1944,8 +1944,8 @@ v("x wind").
 v("y derivative of ocean rigid lid pressure").
 v("y wind").
 v("zenith angle").
-v("atmosphere moles of acetic acid ").
-v("atmosphere moles of alpha hexachlorocyclohexane ").
-v("tendency of atmosphere mass content of nitrogen monoxide due to emission ").
-v("tendency of potential energy content of ocean layer due to diffusion ").
+v("atmosphere moles of acetic acid").
+v("atmosphere moles of alpha hexachlorocyclohexane").
+v("tendency of atmosphere mass content of nitrogen monoxide due to emission").
+v("tendency of potential energy content of ocean layer due to diffusion").
 

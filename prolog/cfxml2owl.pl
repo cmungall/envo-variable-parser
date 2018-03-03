@@ -11,9 +11,11 @@ convert(File,Out) :-
         tf(Term),
         rdf_save(Out).
 
-frag_label(ID,Label) :-
+frag_label(ID,NLabel) :-
         concat_atom(Toks,'_',ID),
-        concat_atom(Toks,' ',Label).
+        concat_atom(Toks,' ',Label),
+        nlabel(Label,NLabel).
+
         
 
 tf(element(_,_,Elts)) :-
@@ -59,6 +61,17 @@ tf_prop(_URI,E) :-
         !,
         writeln(noparse(E)).
 tf_prop(_,_).
-       
+
+nlabel(Label,NLabel) :-
+        atom_concat(' ',X,Label),
+        !,
+        nlabel(X,NLabel).
+nlabel(Label,NLabel) :-
+        atom_concat(X,' ',Label),
+        !,
+        nlabel(X,NLabel).
+nlabel(Label,Label) :- !.
+
+
 
 
