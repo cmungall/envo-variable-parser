@@ -11,7 +11,7 @@ CFXML = cf-standard-name-table_v13.xml
 all: target/parse.txt
 
 # ----------------------------------------
-# DOWNLOAD CF
+# DOWNLOAD AND PROCESS CF
 # ----------------------------------------
 data/$(CFXML):
 	wget --no-check-certificate https://cdn.earthdata.nasa.gov/conduit/upload/502/cf-standard-name-table_v13.txt -O $@ && touch $@
@@ -28,17 +28,41 @@ data/cf-vars.txt: ont/cf.owl
 data/cf.pro: ont/cf.owl
 	pl2sparql -f prolog  -i $< -e "label(X,L@en)" "v(L)" > $@
 
-cf-test: data/cf.pro
-	swipl -l prolog/grammar -g t,halt.
-
-target/parse.txt: data/cf.pro
-	swipl -l prolog/grammar -g t,halt. > $@
-
-
-cvt: ont/cf.owl
-
-ont/envo.owl:
-	curl -L $(OBO)/
 
 ont/cf.owl: data/$(CFXML)
 	swipl -l prolog/cfxml2owl -g "convert('$<', '$@.tmp.owl'),halt" && robot convert -i $@.tmp.owl -o $@
+
+cvt: ont/cf.owl
+
+# ----------------------------------------
+# ONTOLOGY PROCESSING
+# ----------------------------------------
+
+DICTS = envo_material envo_process pato_quality
+
+ont/envo.owl:
+	curl -L $(OBO)/envo.owl > $@.tmp && mv $@.tmp $@
+.PRECIOUS: envo.owl
+
+ont/pato.owl:
+	curl -L $(OBO)/pato.owl > $@.tmp && mv $@.tmp $@
+.PRECIOUS: pato.owl
+
+ont/envo_material.pl: ont/envo.owl
+	pl2sparql -f prolog -i $< -e "rdfs_subclass_of(X, '$(OBO)/ENVO_00010483'),label(X,L)" "cls(material,X,L)" > $@
+
+ont/envo_process.pl: ont/envo.owl
+	pl2sparql -f prolog -i $< -e "rdfs_subclass_of(X, '$(OBO)/ENVO_02500000'),label(X,L)" "cls(process,X,L)" > $@
+
+ont/pato_quality.pl: ont/pato.owl
+	pl2sparql -f prolog -i $< -e "rdfs_subclass_of(X, '$(OBO)/PATO_0000001'),label(X,L)" "cls(quality,X,L)" > $@
+
+ont/dict.pl: $(patsubst %, ont/%.pl, $(DICTS))
+	cat $^ > $@
+
+# ----------------------------------------
+# PARSE AND TRANSLATE
+# ----------------------------------------
+
+target/parse.txt: data/cf.pro ont/dict.pl prolog/grammar.pl
+	swipl -l prolog/grammar -g t,halt. > $@
