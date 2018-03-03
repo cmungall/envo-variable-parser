@@ -7,13 +7,23 @@ case('mass concentration of atomic bromine in air',_).
 
 :- table cvar//1.
 
-
+% EXAMPLE: "tendency of upward air velocity due to advection"
 cvar( due_to(Effect,Cause) ) --> cvar(Effect), [due,to], !, cause(Cause).
 
-cvar( located_in(V, M) ) --> cvar(V), [in], !, material(M).
-cvar( located_at(V, M) ) --> cvar(V), [at], !, material(M).
-cvar( into(V, M) ) --> cvar(V), [into], !, material(M).
+% EXAMPLE: "tendency of upward air velocity due to advection"
+cvar( assuming(V,Assumption) ) --> cvar(V), [assuming], !, assumption(Assumption).
 
+% EXAMPLE: "upward heat flux in air"
+cvar( located_in(V, M) ) --> cvar(V), [in], !, location(M).
+
+% EXAMPLE: "air pressure at cloud base"
+cvar( located_at(V, M) ) --> cvar(V), [at], !, location(M).
+
+% EXAMPLE: "virtual salt flux into sea water"
+cvar( into(V, M) ) --> cvar(V), [into], !, location(M).
+
+% EXAMPLE: "volume fraction of clay in soil")
+% TODO: fractions
 cvar( inheres_in(A, E) ) --> attribute(A), [of], !, cvar(E).
 
 cvar(X) --> cvar_np(X).
@@ -23,8 +33,14 @@ cvar_np( inheres_in(Q,E) ) --> material(E), nterm(quality, Q), !.
 cvar_np( inheres_in(Q,E) ) --> process(E), nterm(quality, Q), !.  % TODO - check this is a rate
 cvar_np(X) --> np(X).
 
+
 cause(X) --> process(X), !.
 cause(X) --> np(X).
+
+location(X) --> material(X), !.
+location(X) --> np(X).
+
+assumption(X) --> np(X).
 
 
 np(X) --> terminal(X).
