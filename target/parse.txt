@@ -154,10 +154,6 @@
  PARSE: term(atmosphere convective cloud liquid water content)
  PARSE: n(atmosphere)-(n(convective)-(n(cloud)-(n(liquid)-(n(water)-n(content)))))
 
-## atmosphere net upward convective mass flux
- PARSE: term(atmosphere net upward convective mass flux)
- PARSE: n(atmosphere)-(n(net)-(n(upward)-(n(convective)-(n(mass)-n(flux)))))
-
 ## atmosphere downdraft convective mass flux
  PARSE: term(atmosphere downdraft convective mass flux)
  PARSE: n(atmosphere)-(n(downdraft)-(n(convective)-(n(mass)-n(flux))))
@@ -814,6 +810,10 @@
 ## atmosphere net rate of absorption of shortwave energy
  PARSE: inheres_in(attribute(n(atmosphere)-(n(net)-n(rate))),inheres_in(attribute(n(absorption)),n(shortwave)-n(energy)))
 
+## atmosphere net upward convective mass flux
+ PARSE: term(atmosphere net upward convective mass flux)
+ PARSE: n(atmosphere)-(n(net)-(n(upward)-(n(convective)-(n(mass)-n(flux)))))
+
 ## atmosphere net upward deep convective mass flux
  PARSE: term(atmosphere net upward deep convective mass flux)
  PARSE: n(atmosphere)-(n(net)-(n(upward)-(n(deep)-(n(convective)-(n(mass)-n(flux))))))
@@ -1072,10 +1072,6 @@
  PARSE: term(cloud liquid water mixing ratio)
  PARSE: n(cloud)-(n(liquid)-(n(water)-(n(mixing)-n(ratio))))
 
-## convective cloud longwave emissivity
- PARSE: term(convective cloud longwave emissivity)
- PARSE: n(convective)-(n(cloud)-(n(longwave)-n(emissivity)))
-
 ## cloud top altitude
  PARSE: term(cloud top altitude)
  PARSE: n(cloud)-(n(top)-term(altitude))
@@ -1100,6 +1096,10 @@
  PARSE: term(convective cloud base height)
  PARSE: n(convective)-(n(cloud)-(n(base)-term(height)))
  PARSE: n(convective)-(n(cloud)-(n(base)-n(height)))
+
+## convective cloud longwave emissivity
+ PARSE: term(convective cloud longwave emissivity)
+ PARSE: n(convective)-(n(cloud)-(n(longwave)-n(emissivity)))
 
 ## convective cloud top altitude
  PARSE: term(convective cloud top altitude)
@@ -1996,9 +1996,6 @@
 ## mass concentration of carbon tetrachloride in air
  PARSE: located_in(inheres_in(attribute(n(mass)-n(concentration)),n(carbon)-n(tetrachloride)),material(n(air)))
 
-## mass concentration of cfc11 in air
- PARSE: located_in(inheres_in(attribute(n(mass)-n(concentration)),n(cfc11)),material(n(air)))
-
 ## mass concentration of cfc113 in air
  PARSE: located_in(inheres_in(attribute(n(mass)-n(concentration)),n(cfc113)),material(n(air)))
 
@@ -2010,6 +2007,9 @@
 
 ## mass concentration of cfc115 in air
  PARSE: located_in(inheres_in(attribute(n(mass)-n(concentration)),n(cfc115)),material(n(air)))
+
+## mass concentration of cfc11 in air
+ PARSE: located_in(inheres_in(attribute(n(mass)-n(concentration)),n(cfc11)),material(n(air)))
 
 ## mass concentration of cfc12 in air
  PARSE: located_in(inheres_in(attribute(n(mass)-n(concentration)),n(cfc12)),material(n(air)))
@@ -2353,9 +2353,6 @@
 ## mass fraction of carbon tetrachloride in air
  PARSE: located_in(inheres_in(attribute(n(mass)-n(fraction)),n(carbon)-n(tetrachloride)),material(n(air)))
 
-## mass fraction of cfc11 in air
- PARSE: located_in(inheres_in(attribute(n(mass)-n(fraction)),n(cfc11)),material(n(air)))
-
 ## mass fraction of cfc113 in air
  PARSE: located_in(inheres_in(attribute(n(mass)-n(fraction)),n(cfc113)),material(n(air)))
 
@@ -2367,6 +2364,9 @@
 
 ## mass fraction of cfc115 in air
  PARSE: located_in(inheres_in(attribute(n(mass)-n(fraction)),n(cfc115)),material(n(air)))
+
+## mass fraction of cfc11 in air
+ PARSE: located_in(inheres_in(attribute(n(mass)-n(fraction)),n(cfc11)),material(n(air)))
 
 ## mass fraction of cfc12 in air
  PARSE: located_in(inheres_in(attribute(n(mass)-n(fraction)),n(cfc12)),material(n(air)))
@@ -2584,11 +2584,11 @@
 ## mass fraction of peroxynitric acid in air
  PARSE: located_in(inheres_in(attribute(n(mass)-n(fraction)),n(peroxynitric)-n(acid)),material(n(air)))
 
-## mass fraction of pm1 ambient aerosol in air
- PARSE: located_in(inheres_in(attribute(n(mass)-n(fraction)),n(pm1)-(n(ambient)-n(aerosol))),material(n(air)))
-
 ## mass fraction of pm10 ambient aerosol in air
  PARSE: located_in(inheres_in(attribute(n(mass)-n(fraction)),n(pm10)-(n(ambient)-n(aerosol))),material(n(air)))
+
+## mass fraction of pm1 ambient aerosol in air
+ PARSE: located_in(inheres_in(attribute(n(mass)-n(fraction)),n(pm1)-(n(ambient)-n(aerosol))),material(n(air)))
 
 ## mass fraction of pm2p5 ambient aerosol in air
  PARSE: located_in(inheres_in(attribute(n(mass)-n(fraction)),n(pm2p5)-(n(ambient)-n(aerosol))),material(n(air)))
@@ -2629,11 +2629,11 @@
 ## mass fraction of sulfate dry aerosol in air
  PARSE: located_in(inheres_in(attribute(n(mass)-n(fraction)),n(sulfate)-(n(dry)-n(aerosol))),material(n(air)))
 
-## mass fraction of sulfuric acid in air
- PARSE: located_in(inheres_in(attribute(n(mass)-n(fraction)),n(sulfuric)-n(acid)),material(n(air)))
-
 ## mass fraction of sulfur dioxide in air
  PARSE: located_in(inheres_in(attribute(n(mass)-n(fraction)),n(sulfur)-n(dioxide)),material(n(air)))
+
+## mass fraction of sulfuric acid in air
+ PARSE: located_in(inheres_in(attribute(n(mass)-n(fraction)),n(sulfuric)-n(acid)),material(n(air)))
 
 ## mass fraction of terpenes in air
  PARSE: located_in(inheres_in(attribute(n(mass)-n(fraction)),n(terpenes)),material(n(air)))
@@ -2758,9 +2758,6 @@
 ## mole concentration of carbon tetrachloride in air
  PARSE: located_in(inheres_in(attribute(n(mole)-n(concentration)),n(carbon)-n(tetrachloride)),material(n(air)))
 
-## mole concentration of cfc11 in air
- PARSE: located_in(inheres_in(attribute(n(mole)-n(concentration)),n(cfc11)),material(n(air)))
-
 ## mole concentration of cfc113 in air
  PARSE: located_in(inheres_in(attribute(n(mole)-n(concentration)),n(cfc113)),material(n(air)))
 
@@ -2772,6 +2769,9 @@
 
 ## mole concentration of cfc115 in air
  PARSE: located_in(inheres_in(attribute(n(mole)-n(concentration)),n(cfc115)),material(n(air)))
+
+## mole concentration of cfc11 in air
+ PARSE: located_in(inheres_in(attribute(n(mole)-n(concentration)),n(cfc11)),material(n(air)))
 
 ## mole concentration of cfc12 in air
  PARSE: located_in(inheres_in(attribute(n(mole)-n(concentration)),n(cfc12)),material(n(air)))
@@ -3055,9 +3055,6 @@
 ## mole fraction of carbon tetrachloride in air
  PARSE: located_in(inheres_in(attribute(n(mole)-n(fraction)),n(carbon)-n(tetrachloride)),material(n(air)))
 
-## mole fraction of cfc11 in air
- PARSE: located_in(inheres_in(attribute(n(mole)-n(fraction)),n(cfc11)),material(n(air)))
-
 ## mole fraction of cfc113 in air
  PARSE: located_in(inheres_in(attribute(n(mole)-n(fraction)),n(cfc113)),material(n(air)))
 
@@ -3069,6 +3066,9 @@
 
 ## mole fraction of cfc115 in air
  PARSE: located_in(inheres_in(attribute(n(mole)-n(fraction)),n(cfc115)),material(n(air)))
+
+## mole fraction of cfc11 in air
+ PARSE: located_in(inheres_in(attribute(n(mole)-n(fraction)),n(cfc11)),material(n(air)))
 
 ## mole fraction of cfc12 in air
  PARSE: located_in(inheres_in(attribute(n(mole)-n(fraction)),n(cfc12)),material(n(air)))
@@ -3268,6 +3268,9 @@
 ## mole ratio of nitrate to phosphate in sea water
  PARSE: located_in(inheres_in(attribute(n(mole)-n(ratio)),n(nitrate)-(n(to)-n(phosphate))),material(n(sea)-n(water)))
 
+## moles of cfc11 per unit mass in sea water
+ PARSE: located_in(inheres_in(attribute(n(moles)),n(cfc11)-(n(per)-(n(unit)-n(mass)))),material(n(sea)-n(water)))
+
 ## moles of nitrate and nitrite per unit mass in sea water
  PARSE: located_in(inheres_in(attribute(n(moles)),n(nitrate)-(n(and)-(n(nitrite)-(n(per)-(n(unit)-n(mass)))))),material(n(sea)-n(water)))
 
@@ -3285,9 +3288,6 @@
 
 ## moles of silicate per unit mass in sea water
  PARSE: located_in(inheres_in(attribute(n(moles)),n(silicate)-(n(per)-(n(unit)-n(mass)))),material(n(sea)-n(water)))
-
-## moles of cfc11 per unit mass in sea water
- PARSE: located_in(inheres_in(attribute(n(moles)),n(cfc11)-(n(per)-(n(unit)-n(mass)))),material(n(sea)-n(water)))
 
 ## net downward longwave flux in air
  PARSE: located_in(n(net)-(n(downward)-(n(longwave)-n(flux))),material(n(air)))
@@ -3572,6 +3572,10 @@
  PARSE: n(ocean)-(n(rigid)-(n(lid)-(n(pressure)-(n(expressed)-(n(as)-term(sea surface height above geoid))))))
  PARSE: n(ocean)-(n(rigid)-(n(lid)-(n(pressure)-(n(expressed)-(n(as)-(n(sea)-(n(surface)-(n(height)-(n(above)-n(geoid))))))))))
 
+## ocean s coordinate
+ PARSE: term(ocean s coordinate)
+ PARSE: n(ocean)-(n(s)-n(coordinate))
+
 ## ocean salt x transport
  PARSE: term(ocean salt x transport)
  PARSE: n(ocean)-(n(salt)-(n(x)-n(transport)))
@@ -3579,10 +3583,6 @@
 ## ocean salt y transport
  PARSE: term(ocean salt y transport)
  PARSE: n(ocean)-(n(salt)-(n(y)-n(transport)))
-
-## ocean s coordinate
- PARSE: term(ocean s coordinate)
- PARSE: n(ocean)-(n(s)-n(coordinate))
 
 ## ocean sigma coordinate
  PARSE: term(ocean sigma coordinate)
@@ -3967,14 +3967,14 @@
  PARSE: term(sea ice area)
  PARSE: n(sea)-(n(ice)-n(area))
 
-## sea ice displacement
- PARSE: term(sea ice displacement)
- PARSE: n(sea)-(n(ice)-n(displacement))
-
 ## sea ice area fraction
  PARSE: term(sea ice area fraction)
  PARSE: n(sea)-(n(ice)-term(area fraction))
  PARSE: n(sea)-(n(ice)-(n(area)-n(fraction)))
+
+## sea ice displacement
+ PARSE: term(sea ice displacement)
+ PARSE: n(sea)-(n(ice)-n(displacement))
 
 ## sea ice draft
  PARSE: term(sea ice draft)
@@ -4067,11 +4067,11 @@
 ## sea surface height bias due to sea surface roughness
  PARSE: due_to(n(sea)-(n(surface)-(n(height)-n(bias))),n(sea)-(n(surface)-n(roughness)))
 
-## sea surface height correction due to air pressure at low frequency
- PARSE: due_to(n(sea)-(n(surface)-(n(height)-n(correction))),n(air)-(n(pressure)-(n(at)-(n(low)-n(frequency)))))
-
 ## sea surface height correction due to air pressure and wind at high frequency
  PARSE: due_to(n(sea)-(n(surface)-(n(height)-n(correction))),n(air)-(n(pressure)-(n(and)-(n(wind)-(n(at)-(n(high)-n(frequency)))))))
+
+## sea surface height correction due to air pressure at low frequency
+ PARSE: due_to(n(sea)-(n(surface)-(n(height)-n(correction))),n(air)-(n(pressure)-(n(at)-(n(low)-n(frequency)))))
 
 ## sea surface salinity
  PARSE: term(sea surface salinity)
@@ -4937,9 +4937,6 @@
 ## tendency of air temperature due to dry convection
  PARSE: due_to(inheres_in(attribute(n(tendency)),n(air)-n(temperature)),n(dry)-n(convection))
 
-## tendency of air temperature due to stratiform precipitation
- PARSE: due_to(inheres_in(attribute(n(tendency)),n(air)-n(temperature)),n(stratiform)-n(precipitation))
-
 ## tendency of air temperature due to longwave heating
  PARSE: due_to(inheres_in(attribute(n(tendency)),n(air)-n(temperature)),n(longwave)-n(heating))
 
@@ -4963,6 +4960,9 @@
 
 ## tendency of air temperature due to stratiform cloud and precipitation and boundary layer mixing
  PARSE: due_to(inheres_in(attribute(n(tendency)),n(air)-n(temperature)),n(stratiform)-(n(cloud)-(n(and)-(n(precipitation)-(n(and)-(n(boundary)-(n(layer)-n(mixing))))))))
+
+## tendency of air temperature due to stratiform precipitation
+ PARSE: due_to(inheres_in(attribute(n(tendency)),n(air)-n(temperature)),n(stratiform)-n(precipitation))
 
 ## tendency of air temperature due to turbulence
  PARSE: due_to(inheres_in(attribute(n(tendency)),n(air)-n(temperature)),n(turbulence))
@@ -5052,9 +5052,6 @@
 ## tendency of atmosphere mass content of carbon tetrachloride due to emission
  PARSE: due_to(inheres_in(attribute(n(tendency)),inheres_in(attribute(n(atmosphere)-(n(mass)-n(content))),n(carbon)-n(tetrachloride))),n(emission))
 
-## tendency of atmosphere mass content of cfc11 due to emission
- PARSE: due_to(inheres_in(attribute(n(tendency)),inheres_in(attribute(n(atmosphere)-(n(mass)-n(content))),n(cfc11))),n(emission))
-
 ## tendency of atmosphere mass content of cfc113 due to emission
  PARSE: due_to(inheres_in(attribute(n(tendency)),inheres_in(attribute(n(atmosphere)-(n(mass)-n(content))),n(cfc113))),n(emission))
 
@@ -5066,6 +5063,9 @@
 
 ## tendency of atmosphere mass content of cfc115 due to emission
  PARSE: due_to(inheres_in(attribute(n(tendency)),inheres_in(attribute(n(atmosphere)-(n(mass)-n(content))),n(cfc115))),n(emission))
+
+## tendency of atmosphere mass content of cfc11 due to emission
+ PARSE: due_to(inheres_in(attribute(n(tendency)),inheres_in(attribute(n(atmosphere)-(n(mass)-n(content))),n(cfc11))),n(emission))
 
 ## tendency of atmosphere mass content of cfc12 due to emission
  PARSE: due_to(inheres_in(attribute(n(tendency)),inheres_in(attribute(n(atmosphere)-(n(mass)-n(content))),n(cfc12))),n(emission))
@@ -5957,14 +5957,14 @@
 ## tendency of specific humidity due to diffusion
  PARSE: due_to(inheres_in(attribute(n(tendency)),n(specific)-n(humidity)),n(diffusion))
 
-## tendency of specific humidity due to stratiform precipitation
- PARSE: due_to(inheres_in(attribute(n(tendency)),n(specific)-n(humidity)),n(stratiform)-n(precipitation))
-
 ## tendency of specific humidity due to model physics
  PARSE: due_to(inheres_in(attribute(n(tendency)),n(specific)-n(humidity)),n(model)-n(physics))
 
 ## tendency of specific humidity due to stratiform cloud and precipitation and boundary layer mixing
  PARSE: due_to(inheres_in(attribute(n(tendency)),n(specific)-n(humidity)),n(stratiform)-(n(cloud)-(n(and)-(n(precipitation)-(n(and)-(n(boundary)-(n(layer)-n(mixing))))))))
+
+## tendency of specific humidity due to stratiform precipitation
+ PARSE: due_to(inheres_in(attribute(n(tendency)),n(specific)-n(humidity)),n(stratiform)-n(precipitation))
 
 ## tendency of surface air pressure
  PARSE: inheres_in(attribute(n(tendency)),term(surface air pressure))
@@ -6231,10 +6231,6 @@
 ## upward dry static energy flux due to diffusion
  PARSE: due_to(n(upward)-(n(dry)-(n(static)-(n(energy)-n(flux)))),n(diffusion))
 
-## upward eastward stress at sea ice base
- PARSE: term(upward eastward stress at sea ice base)
- PARSE: n(upward)-(n(eastward)-(n(stress)-(n(at)-(n(sea)-(n(ice)-n(base))))))
-
 ## upward eastward momentum flux in air due to nonorographic eastward gravity waves
  PARSE: due_to(n(upward)-(n(eastward)-(n(momentum)-(n(flux)-(n(in)-n(air))))),n(nonorographic)-(n(eastward)-(n(gravity)-n(waves))))
 
@@ -6243,6 +6239,10 @@
 
 ## upward eastward momentum flux in air due to orographic gravity waves
  PARSE: due_to(n(upward)-(n(eastward)-(n(momentum)-(n(flux)-(n(in)-n(air))))),n(orographic)-(n(gravity)-n(waves)))
+
+## upward eastward stress at sea ice base
+ PARSE: term(upward eastward stress at sea ice base)
+ PARSE: n(upward)-(n(eastward)-(n(stress)-(n(at)-(n(sea)-(n(ice)-n(base))))))
 
 ## upward eliassen palm flux in air
  PARSE: located_in(n(upward)-(n(eliassen)-(n(palm)-n(flux))),material(n(air)))
@@ -6377,6 +6377,18 @@
 ## volume fraction of clay in soil
  PARSE: located_in(inheres_in(attribute(n(volume)-n(fraction)),n(clay)),material(n(soil)))
 
+## volume fraction of condensed water in soil
+ PARSE: located_in(inheres_in(attribute(n(volume)-n(fraction)),n(condensed)-n(water)),material(n(soil)))
+
+## volume fraction of condensed water in soil at critical point
+ PARSE: located_in(inheres_in(attribute(n(volume)-n(fraction)),n(condensed)-n(water)),material(n(soil)-(n(at)-(n(critical)-n(point)))))
+
+## volume fraction of condensed water in soil at field capacity
+ PARSE: located_in(inheres_in(attribute(n(volume)-n(fraction)),n(condensed)-n(water)),material(n(soil)-(n(at)-(n(field)-n(capacity)))))
+
+## volume fraction of condensed water in soil at wilting point
+ PARSE: located_in(inheres_in(attribute(n(volume)-n(fraction)),n(condensed)-n(water)),material(n(soil)-(n(at)-(n(wilting)-n(point)))))
+
 ## volume fraction of condensed water in soil pores
  PARSE: located_in(inheres_in(attribute(n(volume)-n(fraction)),n(condensed)-n(water)),material(n(soil)-n(pores)))
 
@@ -6391,18 +6403,6 @@
 
 ## volume fraction of silt in soil
  PARSE: located_in(inheres_in(attribute(n(volume)-n(fraction)),n(silt)),material(n(soil)))
-
-## volume fraction of condensed water in soil
- PARSE: located_in(inheres_in(attribute(n(volume)-n(fraction)),n(condensed)-n(water)),material(n(soil)))
-
-## volume fraction of condensed water in soil at critical point
- PARSE: located_in(inheres_in(attribute(n(volume)-n(fraction)),n(condensed)-n(water)),material(n(soil)-(n(at)-(n(critical)-n(point)))))
-
-## volume fraction of condensed water in soil at field capacity
- PARSE: located_in(inheres_in(attribute(n(volume)-n(fraction)),n(condensed)-n(water)),material(n(soil)-(n(at)-(n(field)-n(capacity)))))
-
-## volume fraction of condensed water in soil at wilting point
- PARSE: located_in(inheres_in(attribute(n(volume)-n(fraction)),n(condensed)-n(water)),material(n(soil)-(n(at)-(n(wilting)-n(point)))))
 
 ## volume mixing ratio of oxygen at stp in sea water
  PARSE: located_in(inheres_in(attribute(n(volume)-(n(mixing)-n(ratio))),n(oxygen)-(n(at)-n(stp))),material(n(sea)-n(water)))
@@ -6546,4 +6546,16 @@
 ## zenith angle
  PARSE: term(zenith angle)
  PARSE: n(zenith)-n(angle)
+
+## atmosphere moles of acetic acid 
+ PARSE: inheres_in(attribute(n(atmosphere)-n(moles)),n(acetic)-(n(acid)-n()))
+
+## atmosphere moles of alpha hexachlorocyclohexane 
+ PARSE: inheres_in(attribute(n(atmosphere)-n(moles)),n(alpha)-(n(hexachlorocyclohexane)-n()))
+
+## tendency of atmosphere mass content of nitrogen monoxide due to emission 
+ PARSE: due_to(inheres_in(attribute(n(tendency)),inheres_in(attribute(n(atmosphere)-(n(mass)-n(content))),n(nitrogen)-n(monoxide))),n(emission)-n())
+
+## tendency of potential energy content of ocean layer due to diffusion 
+ PARSE: due_to(inheres_in(attribute(n(tendency)),inheres_in(attribute(n(potential)-(n(energy)-n(content))),n(ocean)-n(layer))),n(diffusion)-n())
 

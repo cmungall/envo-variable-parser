@@ -32,9 +32,9 @@ reserved(of).
 %setup :- forall(nterm(_,_,_),true).
 
 
-show_parse(X) :-
-        format('## ~w~n',[X]),
-        concat_atom(Toks,' ',X),
+show_parse(Term) :-
+        format('## ~w~n',[Term]),
+        term_toks(Term, Toks),
         forall(cvar(Phrase,Toks,[]),
                format(' PARSE: ~w~n',[Phrase])),
         nl.
@@ -47,7 +47,12 @@ t :-
                show_parse(X)).
 
 
-nterm_1(Term, Toks, []) :- v(Term),concat_atom(Toks,' ',Term).
+nterm_1(Term, Toks, []) :- v(Term),term_toks(Term,Toks).
+
+term_toks(S,Toks) :-
+        atom_string(A,S),
+        concat_atom(Toks,' ',A).
+
 
 loadvars(F) :-
         consult(F),
