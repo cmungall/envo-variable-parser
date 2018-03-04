@@ -30,6 +30,8 @@ Next step is to transform this to OWL expressions
 
 ## TODO
 
+ - align with http://www.met.reading.ac.uk/~jonathan/CF_metadata/14.1/lexicon
+    - adequate treatment of scalars, vectors, tensors, functions
  - generate OWL equivalence axioms
  - use UO in ontology conversion
  - use PATO (flux etc) as terminals

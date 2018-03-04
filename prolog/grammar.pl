@@ -1,5 +1,16 @@
+/*
+  
+http://www.met.reading.ac.uk/~jonathan/CF_metadata/14.1/lexicon
+  
+  */
+
 :- use_module(library(tabling)).
 :- use_module(library(semweb/rdf11)).
+:- rdf_register_prefix(dbr,'http://dbpedia.org/resource/').
+
+:- op(200,xfy,and).
+:- op(150,xfy,some).
+:- op(150,xfy,only).
 
 case('angstrom exponent of ambient aerosol in air',_).
 case('atmosphere cloud liquid water content', _).
@@ -18,7 +29,7 @@ variable( fraction(Q,M1,M2) ) --> quality(Q),[fraction],[of],physical(M1), [in],
 variable( product(V1,V2) ) --> [product],[of],variable(V1), [and], variable(V2).
 
 % EXAMPLE: "tendency of upward air velocity due to advection"
-variable( due_to(Effect,Cause) ) --> variable(Effect), [due,to], cause(Cause).
+variable( due_to(Effect,Phenomenom) ) --> variable(Effect), [due,to], phenomenom(Phenomenom).
 
 % EXAMPLE: "tendency of upward air velocity due to advection"
 variable( assuming(V,Assumption) ) --> variable(V), [assuming], assumption(Assumption).
@@ -39,11 +50,11 @@ variable( inheres_in(A, E) ) --> attribute(A), [of], variable(E).
 variable( inheres_in(Q,E) ) --> physical(E), object_quality(Q).
 variable( inheres_in(Q,E) ) --> process(E), process_quality(Q).  % TODO - check this is a rate
 
-:- table cause//1.
+:- table phenomenom//1.
 
-% 'cause' terms succeed 'due to'
-cause(X) --> process(X).
-cause(X) --> np(X), \+ process(X).
+% 'phenomenom' terms succeed 'due to'
+phenomenom(X) --> process(X).
+phenomenom(X) --> np(X), \+ process(X).
 
 % TODO
 location(X) --> material(X).
@@ -113,7 +124,10 @@ show_parse(Term,IsShowAll) :-
         term_toks(Term, _, Toks),
         Goal = variable(Phrase,Toks,[]),
         (   goal_ranked(Goal, Phrase, [Score-Best|_])
-        ->  format('  BEST: ~w  // PENALTY=~w~n',[Best,Score])
+        ->  format('  BEST: ~w  // PENALTY=~w~n',[Best,Score]),
+            (   tree_expression(Best,Expr)
+            ->  format('  EQUIVALENT_TO: ~w ~n',[Expr])
+            ;   format('  **NO_OWL**~n'))
         ;   format('  **NO_PARSE**~n')),
         forall((IsShowAll,Goal),
                format(' PARSE: ~w~n',[Phrase])),
@@ -131,7 +145,11 @@ parse_all :-
 parse_all(IsShowAll) :-
         loadall,
         forall(v(X),
-               show_parse(X,IsShowAll)).
+               show_parse(X,IsShowAll)),
+        tell('target/slim-generated.pro'),
+        forall(found(X),
+               format('~q.~n',[slim(X)])),
+        told.
 
 % Tok is a token in NTerm
 token_usage(Tok,NTerm) :-
@@ -186,12 +204,49 @@ compile_dcg_terms :-
         forall(nterm(Cat,A,B,C),
                format('~q.~n',[nterm(Cat,A,B,C)])),
         told.
+
+% ----------------------------------------
+% TRANSLATION TO OWL
+% ----------------------------------------
+tree_expression(cls(URI,_), URI) :- !.
+tree_expression(n(Word), dbr:Word) :- !.
+tree_expression(A+B, and(AX,some(relatedTo,BX))) :- !, tree_expression(A,AX), tree_expression(B,BX).
+tree_expression(T,AX) :-
+        % unary predicates are informative and do not affect the class expression
+        T =.. [_,A],
+        !,
+        tree_expression(A,AX).
+tree_expression(T,and(AX,some(R,BX))) :-
+        % binary predicates
+        T =.. [Pred,A,B],
+        !,
+        tree_expression(A,AX),
+        tree_expression(B,BX),
+        R=Pred.                 % TODO
+
+tree_expression(T,and(Genus,some(of,AX),some(upper,BX),some(lower,CX))) :-
+        % binary predicates
+        T =.. [Pred,A,B,C],
+        !,
+        tree_expression(A,AX),
+        tree_expression(B,BX),
+        tree_expression(C,CX),
+        Genus=Pred.                 % TODO
+tree_expression(X,huh(X)).
+
+
+
                
+
+
 % ----------------------------------------
 % SCORING
 % ----------------------------------------
 % A term can product multiple parses; each parse tree
 % is penalized by the presence of certain characteristics; e.g use of unknown vocab terms
+
+:- dynamic found/1.
+
 
 % terminal is unknown word
 tree_penalty(n(_),2) :- !.
@@ -203,7 +258,11 @@ tree_penalty(A+B,S) :-
         tree_penalty(B,S2),
         S is S1 + S2 + 4.
 
-tree_penalty(cls(_,_),0) :- !.
+tree_penalty(Cls,0) :-
+        Cls = cls(_,_),
+        !,
+        assert(found(Cls)).
+
 
 tree_penalty(induce(A),S) :-
         !,
@@ -231,6 +290,7 @@ tree_penalty(T,S) :-
         tree_penalty(C,S3),
         S is S1 + S2 + S3 + 1.
 
+% TODO: score classes based on synonym                   
 tree_penalty(_,0) :- !.
 
 
@@ -266,6 +326,8 @@ test_parse(Term, ExpectedTree, ExpectedScore, Pred) :-
         goal_ranked(Goal, Phrase, [Score-Best|_]),
         format('  BEST: ~q  // SCORE=~w~n',[Best,Score]),
         nl,
+        tree_expression(Best,Expr),
+        format('  EQUIVALENT_TO: ~w ~n',[Expr]),        
         forall(Goal,
                format(' PARSE: ~q~n',[Phrase])),
         nl,

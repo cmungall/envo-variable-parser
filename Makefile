@@ -45,6 +45,10 @@ ont/cf.owl: data/$(CFXML)
 cvt: ont/cf.owl
 
 # ----------------------------------------
+# 
+# ----------------------------------------
+
+# ----------------------------------------
 # ONTOLOGY PROCESSING
 # ----------------------------------------
 
@@ -63,14 +67,14 @@ ont/chebi.owl:
 .PRECIOUS: chebi.owl
 
 ont/dictionary.pl: $(patsubst %, ont/%.owl, $(ONTS))
-	pl2sparql -f prolog $(patsubst %, -i %, $^) -c prolog/lexical_query -e cls_label > $@.tmp && mv $@.tmp $@
+	pl2sparql -f prolog $(patsubst %, -i %, $^) -c data/cf.pro -c prolog/lexical_query -e cls_label > $@.tmp && mv $@.tmp $@
 
 # ----------------------------------------
 # PARSE AND TRANSLATE
 # ----------------------------------------
 
 target/parse.txt: data/cf.pro ont/dictionary.pl prolog/grammar.pl
-	swipl -l prolog/grammar -g parse_all,halt. > $@
+	$(SWIPL) -l prolog/grammar -g parse_all,halt. > $@
 
 target/parse-detail.txt: data/cf.pro ont/dictionary.pl prolog/grammar.pl
 	swipl -l prolog/grammar -g parse_all(true),halt. > $@
