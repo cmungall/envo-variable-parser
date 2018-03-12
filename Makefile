@@ -3,13 +3,16 @@
 # CONSTANTS
 # ----------------------------------------
 OBO = http://purl.obolibrary.org/obo
-CFXML = cf-standard-name-table_v13.xml
+V=48
+BASEURL = http://cfconventions.org/Data/cf-standard-names/$(V)/src/
+CFXML = cf-standard-name-table.xml
 SWIPL = swipl -L0 -G0 -T0  -p library=prolog
+
 
 # ----------------------------------------
 # TOP LEVEL
 # ----------------------------------------
-all: target/parse.txt
+all: data/cf-vars.txt data/cf-defs.txt target/usage.txt target/summary.txt target/parse.txt
 
 
 # ----------------------------------------
@@ -21,8 +24,9 @@ test:
 # ----------------------------------------
 # DOWNLOAD AND PROCESS CF
 # ----------------------------------------
+
 data/$(CFXML):
-	wget --no-check-certificate https://cdn.earthdata.nasa.gov/conduit/upload/502/cf-standard-name-table_v13.txt -O $@ && touch $@
+	wget --no-check-certificate $(BASEURL)/$(CFXML)  -O $@ && touch $@
 
 .PRECIOUS: data/$(CFXML)
 
