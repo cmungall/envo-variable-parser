@@ -12,43 +12,108 @@ http://www.met.reading.ac.uk/~jonathan/CF_metadata/14.1/lexicon
 :- op(150,xfy,some).
 :- op(150,xfy,only).
 
-case('angstrom exponent of ambient aerosol in air',_).
-case('atmosphere cloud liquid water content', _).
-case('mass concentration of atomic bromine in air',_).
-
 :- table variable//1.
 
+% From: http://cfconventions.org/Data/cf-standard-names/docs/guidelines.html
+variable( intersectionOf([Std,
+                          Surface,
+                          Component,
+                          At,
+                          Medium,
+                          Process,
+                          Condition])
+        ) -->
+        surface(Surface),
+        component(Component),
+        std(Std),
+        at_surface(At),
+        in_medium(Medium),
+        due_to_process(Process),
+        assuming_condition(Condition).
+
+% A surface is defined as a function of horizontal position
+:- table surface//1.
+surface( on(X) ) --> np(X).
+
+opt_surface(X) --> surface(X).
+opt_surface($none) --> [].
+
+at_surface( X ) --> [at], surface(X).
+at_surface( $none ) --> [].
+
+
+% The direction of the spatial component of a vector is indicated by one of the words upward, downward, northward, southward, eastward, westward, x, y. The last two indicate directions along the horizontal grid being used when they are not true longitude and latitude (if there is a rotated pole, for instance)
+% EXAMPLE: geostrophic eastward
+:- table component//1.
+component( component(X) ) --> np(X).
+component($none) --> [].
+
+:- table medium//1.
+medium( medium(X) ) --> physical(X).
+
+:- table in_medium//1.
+in_medium( X ) --> [in], medium(X).
+in_medium( $none ) --> [].
+
+:- table due_to_process//1.
+due_to_process(X) --> [due,to], !, process(X).
+due_to_process($none) --> [].
+
+:- table assuming_condition//1.
+assuming_condition(X) --> [assuming], !, assumption(X).
+assuming_condition($none) --> [].
+
+% standard name
+:- table std//1.
+std( tendency_of(X) ) --> [tendency,of], !, std(X).
+std( square_of(X) ) --> [square,of], !, std(X).
+std( ratio_of(X,Y) ) --> [ratio,of], !, std(X), [to], std(Y).
+
+% variant case
+% E.g. sea surface temperature
+std( intersectionOf([Q,
+                     inheres_in(E),
+                     surface(S)]) ) --> physical(E), surface(S),object_quality(Q).
+std( intersectionOf([Q,
+                     inheres_in(E)]) ) --> physical(E), object_quality(Q).
+
+
+% TODO rest
+std( std(X) ) --> quality(X).
+
+
+
 % EXAMPLE: "ratio of x derivative of ocean rigid lid pressure to sea surface density"
-variable( ratio(V1,V2) ) --> [ratio],[of],variable(V1), [to], variable(V2).
+xxvariable( ratio(V1,V2) ) --> [ratio],[of],xxvariable(V1), [to], xxvariable(V2).
 
 % EXAMPLE: "mass fraction of alkanes in air"
 % Mass fraction is used in the construction mass_fraction_of_X_in_Y, where X is a material constituent of Y. It means the ratio of the mass of X to the mass of Y (including X)
-variable( fraction(Q,M1,M2) ) --> quality(Q),[fraction],[of],physical(M1), [in], physical(M2).
+xxvariable( fraction(Q,M1,M2) ) --> quality(Q),[fraction],[of],physical(M1), [in], physical(M2).
 
 % EXAMPLE: "product of air temperature and specific humidity"
-variable( product(V1,V2) ) --> [product],[of],variable(V1), [and], variable(V2).
+xxvariable( product(V1,V2) ) --> [product],[of],xxvariable(V1), [and], xxvariable(V2).
 
 % EXAMPLE: "tendency of upward air velocity due to advection"
-variable( due_to(Effect,Phenomenom) ) --> variable(Effect), [due,to], phenomenom(Phenomenom).
+xxvariable( due_to(Effect,Phenomenom) ) --> xxvariable(Effect), [due,to], phenomenom(Phenomenom).
 
 % EXAMPLE: "tendency of upward air velocity due to advection"
-variable( assuming(V,Assumption) ) --> variable(V), [assuming], assumption(Assumption).
+xxvariable( assuming(V,Assumption) ) --> xxvariable(V), [assuming], assumption(Assumption).
 
 % EXAMPLE: "upward heat flux in air"
-variable( measured_in(V, M) ) --> variable(V), [in], location(M).
+xxvariable( measured_in(V, M) ) --> xxvariable(V), [in], location(M).
 
 % EXAMPLE: "air pressure at cloud base"
-variable( measured_at(V, M) ) --> variable(V), [at], location(M).
+xxvariable( measured_at(V, M) ) --> xxvariable(V), [at], location(M).
 
 % EXAMPLE: "virtual salt flux into sea water"
-variable( into(V, M) ) --> variable(V), [into], location(M).
+xxvariable( into(V, M) ) --> xxvariable(V), [into], location(M).
 
 % EXAMPLE: "volume fraction of clay in soil")
-variable( inheres_in(A, E) ) --> attribute(A), [of], variable(E).
+xxvariable( inheres_in(A, E) ) --> attribute(A), [of], xxvariable(E).
 
-%%%%variable_np( q(X) ) --> nterm(quality, X), !.
-variable( inheres_in(Q,E) ) --> physical(E), object_quality(Q).
-variable( inheres_in(Q,E) ) --> process(E), process_quality(Q).  % TODO - check this is a rate
+%%%%xxvariable_np( q(X) ) --> nterm(quality, X), !.
+xxvariable( inheres_in(Q,E) ) --> physical(E), object_quality(Q).
+xxvariable( inheres_in(Q,E) ) --> process(E), process_quality(Q).  % TODO - check this is a rate
 
 :- table phenomenom//1.
 
@@ -72,7 +137,7 @@ terminal( induce(X) ) --> nterm(Cats, X),{Cats\=[cf]}.
 terminal( n(X) ) --> [X], \+nterm(_,X), {\+ reserved(X)}.
 %terminal( n(X) ) --> [X], {\+ reserved(X)}.
 
-attribute( attribute(A) ) --> variable(A).
+xxattribute( attribute(A) ) --> xxvariable(A).
 
 :- table physical//1.
 
@@ -247,6 +312,11 @@ tree_expression(X,huh(X)).
 
 :- dynamic found/1.
 
+tree_penalty(intersectionOf(L), Sum) :-
+        !,
+        maplist(tree_penalty,L,Scores),
+        sumlist(Scores,Sum).
+
 
 % terminal is unknown word
 tree_penalty(n(_),2) :- !.
@@ -328,8 +398,8 @@ test_parse(Term, ExpectedTree, ExpectedScore, Pred) :-
         nl,
         tree_expression(Best,Expr),
         format('  EQUIVALENT_TO: ~w ~n',[Expr]),        
-        forall(Goal,
-               format(' PARSE: ~q~n',[Phrase])),
+        forall((Goal,tree_penalty(Phrase,Penalty)),
+               format(' PARSE: ~q // PENALTY=~w~n',[Phrase,Penalty])),
         nl,
         assertion( \+ \+ (Goal, Phrase=ExpectedTree)),
         assertion( Score = ExpectedScore).
